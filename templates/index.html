@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Server</title>
+    <style>
+        body{
+            background-color: rgb(45, 251, 251);
+        }
+        #header{
+            text-align: center;
+            color: rgb(233, 168, 49);
+            background-color: rgb(156, 39, 10);
+            width: 100%;
+            top: 0%;
+            left: 0%;
+            right: 0%;
+        }
+        #container{
+            width: 100%;
+        }
+        .appliance{
+            border: 1px solid purple;
+            background-color: rebeccapurple;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            margin: 1% 1% 1% 1%;
+        }
+    </style>
+    <script>
+        function lightOn()
+        {
+            document.getElementById("BStat").innerHTML = "Wait...";
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", "/bulbon", false ); // false for synchronous request
+            xmlHttp.send( null );
+            document.getElementById("BStat").innerHTML = "OK!";
+        }
+        function lightOff()
+        {
+            document.getElementById("BStat").innerHTML = "Wait...";
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", "/bulboff", false ); // false for synchronous request
+            xmlHttp.send( null );
+            document.getElementById("BStat").innerHTML = "OK!";
+        }
+        function heaterOn()
+        {
+            document.getElementById("HStat").innerHTML = "Wait...";
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", "/heateron", false ); // false for synchronous request
+            xmlHttp.send( null );
+            document.getElementById("HStat").innerHTML = "OK!";
+        }
+        function heaterOff()
+        {
+            document.getElementById("HStat").innerHTML = "Wait...";
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", "/heateroff", false ); // false for synchronous request
+            xmlHttp.send( null );
+            document.getElementById("HStat").innerHTML = "OK!";
+        }
+        function scheduleBulb(){
+            document.getElementById("SBStat").innerHTML = "Wait...";
+            bulbState = document.getElementById("bulbState").value;
+            scHour = document.getElementById("scHour").value;
+            scMin = document.getElementById("scMin").value;
+            url = "/schedule/bulb/" + String(scHour) + "/" + String(scMin) + "/" + String(bulbState);
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", url, false ); // false for synchronous request
+            xmlHttp.send( null );
+            document.getElementById("SBStat").innerHTML = "OK!";
+        }
+        function scheduleHeater(){
+            document.getElementById("SHStat").innerHTML = "Wait...";
+            heaterState = document.getElementById("heaterState").value;
+            scHour = document.getElementById("scHourH").value;
+            scMin = document.getElementById("scMinH").value;
+            url = "/schedule/heater/" + String(scHour) + "/" + String(scMin) + "/" + String(heaterState);
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", url, false ); // false for synchronous request
+            xmlHttp.send( null );
+            document.getElementById("SHStat").innerHTML = "OK!";
+        }
+        function blinkBulb(){
+            document.getElementById("BStat").innerHTML = "Wait...";
+            no = document.getElementById("blinkNo").value;
+            sec = document.getElementById("blinkSc").value;
+            url = "/blink/" + String(sec) + "/" + String(no);
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", url, false ); // false for synchronous request
+            xmlHttp.send( null );
+            document.getElementById("BBStat").innerHTML = "OK!";
+        }
+    </script>
+</head>
+<body>
+    <h1 id="header">
+        Home Server
+    </h1>
+    <div id="container">
+        <div class="appliance">
+            <h2>
+                Light
+            </h2>
+            <span id="BStat"></span><br>
+            <button type="button" class="btn btn-primary" onclick="lightOn()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-power" viewBox="0 0 16 16">
+  <path d="M7.5 1v7h1V1h-1z"></path>
+  <path d="M3 8.812a4.999 4.999 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812z"></path>
+</svg>
+                On
+            </button>
+            <button type="button" class="btn btn-primary" onclick="lightOff()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-power" viewBox="0 0 16 16">
+  <path d="M7.5 1v7h1V1h-1z"></path>
+  <path d="M3 8.812a4.999 4.999 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812z"></path>
+</svg>
+                Off
+            </button>
+        </div>
+        <div class="appliance">
+            <h2>
+                Heater
+            </h2>
+            <span id="HStat"></span><br>
+            <button type="button" class="btn btn-primary" onclick="heaterOn()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-power" viewBox="0 0 16 16">
+  <path d="M7.5 1v7h1V1h-1z"></path>
+  <path d="M3 8.812a4.999 4.999 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812z"></path>
+</svg>
+                On
+            </button>
+            <button type="button" class="btn btn-primary" onclick="heaterOff()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-power" viewBox="0 0 16 16">
+  <path d="M7.5 1v7h1V1h-1z"></path>
+  <path d="M3 8.812a4.999 4.999 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812z"></path>
+</svg>
+                Off
+            </button>
+        </div>
+        <div class="appliance">
+            <h2>
+                Blink the bulb
+            </h2>
+            <span id="BBStat"></span><br>
+            Blink the bulb <input type="number" placeholder="no." id="blinkNo"> times at interval of <input type="number" placeholder="seconds" id="blinkSc"> seconds
+            <br>
+            <button onclick="blinkBulb()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
+                    <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z"/>
+                  </svg>
+                  Done
+            </button>
+        </div>
+        <div class="appliance">
+            <h2>
+                Schedule the bulb
+            </h2>
+            <span id="SBStat"></span><br>
+            Turn the bulb <input type="number" placeholder="0 for off and vice-versa" id="bulbState"> at <input type="number" placeholder="24-hour clock" id="scHour">:<input type="number" placeholder="minute" id="scMin">
+            <br>
+            <button onclick="scheduleBulb()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
+                    <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z"/>
+                  </svg>
+                  Done
+            </button>
+        </div>
+        <div class="appliance">
+            <h2>
+                Schedule the heater
+            </h2>
+            <span id="SHStat"></span><br>
+            Turn the heater <input type="number" placeholder="0 for off and vice-versa" id="heaterState"> at <input type="number" placeholder="24-hour clock" id="scHourH">:<input type="number" placeholder="minute" id="scMinH">
+            <br>
+            <button onclick="scheduleHeater()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
+                    <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z"/>
+                  </svg>
+                  Done
+            </button>
+        </div>
+</body>
+</html>
